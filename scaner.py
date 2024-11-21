@@ -4,6 +4,8 @@ import urllib.request
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 
+end_counter = 5
+
 id_list = []
 title_list = []
 url_list = []
@@ -19,6 +21,7 @@ def get_html(url):
 
 def processed_page(num):
     ''' Обработка страницы под номером `num`'''
+    global end_counter
     print(f'Page #{num}')
     page_html = get_html(f'https://3game.info/gaming/?page={num}&alias=xbox-key')
     page_html = page_html.replace('\n','').replace('\t','')
@@ -31,25 +34,29 @@ def processed_page(num):
 
     for page_line in page_list:
         if page_line == 'p class="otstup-pop"':
+            end_counter -= 1
             break
         product_find = re.findall(product_regex,page_line)
         if len(product_find) == 1:
             id_list.append(product_find[0][0])
             url_list.append(f'https://3game.info/product/{product_find[0][0]}-{product_find[0][1]}')
             title_list.append(product_find[0][2])
+            end_counter = 5
         price_find = re.findall(price_regex,page_line)
         if len(price_find)==1:
             price_list.append(price_find[0])
-        
+            end_counter = 5
     pass
 
 for page_num in range(1,200):
     processed_page(page_num)
+    if end_counter == 0:
+        break
 
 
 print(f'{len(id_list)} - {len(price_list)}')
 
-f = open('out.txt', 'w', encoding='utf-8')
+f = open('out.csv', 'w', encoding='utf-8')
 for i in range(len(id_list)):
-    f.write(f'{title_list[i]}\t{price_list[i]}\n')
+    f.write(f'{id_list[i]};{title_list[i]};{price_list[i]};{url_list[i]}\n')
 f.close()
