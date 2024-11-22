@@ -48,15 +48,15 @@ def processed_page(num):
             end_counter = 5
     pass
 
-for page_num in range(1,200):
+page_num = 1
+while end_counter > 0:
     processed_page(page_num)
-    if end_counter == 0:
-        break
-
+    page_num += 1
 
 print(f'{len(id_list)} - {len(price_list)}')
 
 f = open('out.csv', 'w', encoding='utf-8')
+f.write(f'id;title;price;url\n')
 for i in range(len(id_list)):
     f.write(f'{id_list[i]};{title_list[i]};{price_list[i]};{url_list[i]}\n')
 f.close()
