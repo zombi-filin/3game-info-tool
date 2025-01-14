@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>XBOX game</title>
+    </head>
+    <body>
+        <script>
+            function process(){
+                var price_min = document.getElementById("price_min").value;
+                price_min = price_min==''? 0 : price_min * 1;
+                
+                var price_max = document.getElementById("price_max").value;
+                price_max = price_max==''? 99999 : price_max * 1;
+                
+                var title = document.getElementById("title").value.toLowerCase();
+
+                var rows = document.getElementById("data").getElementsByTagName("tr");
+                for(var i = 0; i < rows.length; i++){
+                    var row_price = rows[i].getElementsByTagName("td")[2].innerText * 1;
+                    var row_title = rows[i].getElementsByTagName("td")[1].innerText.toLowerCase();
+                    rows[i].hidden = row_price < price_min || row_price > price_max || row_title.indexOf(title) == -1;
+                }
+            }
+        </script>
+        <div>
+            Сортировка
+            <select name="sort">
+                <option value="id">ID убывание</option>
+            </select>
+            <input type="text" size="15" id="title">
+            Цена от
+            <input type="text" size="5" id="price_min">
+            до
+            <input type="text" size="5" id="price_max">
+            <button onclick="process()">Пуск</button>
+        </div>
+        <table border="1" cellspacing="0" cellpadding="5" id="data">

@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Текущий файл",
+            "name": "Запуск",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}",
+            "program": "scaner.py",
             "console": "integratedTerminal"
         }
     ]

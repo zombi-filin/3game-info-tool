@@ -55,8 +55,16 @@ while end_counter > 0:
 
 print(f'{len(id_list)} - {len(price_list)}')
 
-f = open('out.csv', 'w', encoding='utf-8')
-f.write(f'id;title;price;url\n')
+out_file = open('games.html', 'w', encoding='utf-8')
+
+with open('html_begin', 'r', encoding='utf-8') as tmp:
+    out_file.write(tmp.read())
+
+
 for i in range(len(id_list)):
-    f.write(f'{id_list[i]};{title_list[i]};{price_list[i]};{url_list[i]}\n')
-f.close()
+    out_file.write(f'<tr><td>{id_list[i]}</td><td>{title_list[i]}</td><td>{price_list[i]}</td><td><a href="{url_list[i]}" target="_blank">ПЕРЕЙТИ</a></td></tr>\n')
+
+with open('html_end', 'r', encoding='utf-8') as tmp:
+    out_file.write(tmp.read())
+
+out_file.close()
