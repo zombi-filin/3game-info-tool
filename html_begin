@@ -5,6 +5,7 @@
     <body>
         <script>
             function process(){
+                var start = Date.now();
                 var price_min = document.getElementById("price_min").value;
                 price_min = price_min==''? 0 : price_min * 1;
                 
@@ -15,8 +16,8 @@
 
                 var rows = document.getElementById("data").getElementsByTagName("tr");
                 for(var i = 0; i < rows.length; i++){
-                    var row_price = rows[i].getElementsByTagName("td")[2].innerText * 1;
-                    var row_title = rows[i].getElementsByTagName("td")[1].innerText.toLowerCase();
+                    var row_price = rows[i].attributes.price.value * 1;
+                    var row_title = rows[i].attributes.title.value.toLowerCase();
                     rows[i].hidden = row_price < price_min || row_price > price_max || row_title.indexOf(title) == -1;
                 }
             }

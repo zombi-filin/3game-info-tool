@@ -62,7 +62,9 @@ with open('html_begin', 'r', encoding='utf-8') as tmp:
 
 
 for i in range(len(id_list)):
-    out_file.write(f'<tr><td>{id_list[i]}</td><td>{title_list[i]}</td><td>{price_list[i]}</td><td><a href="{url_list[i]}" target="_blank">ПЕРЕЙТИ</a></td></tr>\n')
+    out_file.write(f'<tr pos="{id_list[i]}" title="{title_list[i]}" price="{price_list[i]}">\n')
+    out_file.write(f'<td>{title_list[i]}</td><td>{price_list[i]}</td><td><a href="{url_list[i]}" target="_blank">ПЕРЕЙТИ</a></td></tr>\n')
+    out_file.write(f'</tr>\n')
 
 with open('html_end', 'r', encoding='utf-8') as tmp:
     out_file.write(tmp.read())
