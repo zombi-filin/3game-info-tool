@@ -40,7 +40,7 @@ def processed_page(num):
         if len(product_find) == 1:
             id_list.append(product_find[0][0])
             url_list.append(f'https://3game.info/product/{product_find[0][0]}-{product_find[0][1]}')
-            title_list.append(product_find[0][2])
+            title_list.append(product_find[0][2].replace('"',''))
             end_counter = 5
         price_find = re.findall(price_regex,page_line)
         if len(price_find)==1:
@@ -55,18 +55,9 @@ while end_counter > 0:
 
 print(f'{len(id_list)} - {len(price_list)}')
 
-out_file = open('games.html', 'w', encoding='utf-8')
-
-with open('html_begin', 'r', encoding='utf-8') as tmp:
-    out_file.write(tmp.read())
-
-
+out_file = open('data.js', 'w', encoding='utf-8')
+out_file.write('var gameData = [\n')
 for i in range(len(id_list)):
-    out_file.write(f'<tr pos="{id_list[i]}" title="{title_list[i]}" price="{price_list[i]}">\n')
-    out_file.write(f'<td>{title_list[i]}</td><td>{price_list[i]}</td><td><a href="{url_list[i]}" target="_blank">ПЕРЕЙТИ</a></td></tr>\n')
-    out_file.write(f'</tr>\n')
-
-with open('html_end', 'r', encoding='utf-8') as tmp:
-    out_file.write(tmp.read())
-
+    out_file.write(f'[{id_list[i]},"{title_list[i]}", {price_list[i]}, "{url_list[i]}"],\n')
+out_file.write('];')
 out_file.close()

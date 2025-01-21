@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <title>XBOX game</title>
+        <script src="data.js"></script>
+    </head>
+    <body>
+        <script>
+            function sorting(mode){
+                if (mode == "id_asc"){
+                    gameData.sort((a, b) => a[0] - b[0]);
+                }else if (mode == "id_desc"){
+                    gameData.sort((a, b) => b[0] - a[0]);
+                }else if (mode == "price_asc"){
+                    gameData.sort((a, b) => a[2] - b[2]);
+                }else if (mode == "price_desc"){
+                    gameData.sort((a, b) => b[2] - a[2]);
+                }
+                filtering();
+            }
+
+            function filtering(){
+                tableData.innerHTML = "";
+                var titleFilter = inputTitle.value.toLowerCase();
+
+                var priceMin = inputPriceMin.value;
+                priceMin = priceMin == "" ? 0 : priceMin * 1;
+                
+                var priceMax = inputPriceMax.value;
+                priceMax = priceMax == "" ? 99999 : priceMax * 1;
+
+                for (var id in gameData){
+                    var rowPrice = gameData[id][2] * 1;
+                    var rowTitle = gameData[id][1].toLowerCase();
+                    
+                    if (rowPrice < priceMin || rowPrice > priceMax || rowTitle.indexOf(titleFilter) == -1){
+                        continue;
+                    }
+
+                    let tr = document.createElement("tr");
+                    
+                    td = document.createElement("td");
+		            td.textContent = gameData[id][0];
+		            tr.appendChild(td);
+                    
+                    td = document.createElement("td");
+                    td.textContent = gameData[id][1];
+		            tr.appendChild(td);
+                    
+                    td = document.createElement("td");
+                    td.textContent = gameData[id][2];
+		            tr.appendChild(td);
+                    
+                    td = document.createElement("td");
+                    td.innerHTML = "<a target=\"_blank\" href=\"" + gameData[id][3]+"\">" + gameData[id][3] + "</a>";
+		            tr.appendChild(td);
+
+                    tableData.appendChild(tr);
+                }
+                console.log('DOME');
+            }
+        </script>
+        
+
+            <div style="height: 32px; height: 3%;">
+
+                    Сортировка
+                    <select name="sortMode" onchange="sorting(this.value)">
+                        <option value="none">Без сортировки</option>
+                        <option value="id_asc">Возрастание ID</option>
+                        <option value="id_desc">Убывание ID</option>
+                        <option value="price_asc">Возрастание цены</option>
+                        <option value="price_desc">Убывание цены</option>
+                    </select>
+                    <input type="text" size="15" id="inputTitle">
+                    Цена от
+                    <input type="text" size="5" id="inputPriceMin">
+                    до
+                    <input type="text" size="5" id="inputPriceMax">
+                    <button onclick="filtering()">Пуск</button>
+
+                </div>
+
+                <div style="overflow-y: auto; height: 97%;">
+                    <table border="1" cellspacing="0" cellpadding="5" id="tableData">
+                    </table>
+                </div>
+
+    </body>
+</html>
